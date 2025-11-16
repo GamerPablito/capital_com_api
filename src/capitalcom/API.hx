@@ -14,7 +14,7 @@ using StringTools;
 class API {
 	public static var tradingData(default, null):TradingData = null;
 
-	private static final BASE_URL:String = 'https://${tradingData.demo ? "demo-" : ""}api-capital.backend-capital.com/api/v1';
+	private static var BASE_URL:String = 'https://${tradingData.demo ? "demo-" : ""}api-capital.backend-capital.com/api/v1';
 	private static var SECURITY_TOKEN:String = "";
 	private static var CST:String = "";
 
@@ -55,15 +55,16 @@ class API {
 		return promise.future;
 	}
 
-	private static function init(data:TradingData):Future<Dynamic> {
+	public static function init(data:TradingData):Future<Dynamic> {
 		tradingData = data;
+		BASE_URL = 'https://${tradingData.demo ? "demo-" : ""}api-capital.backend-capital.com/api/v1';
 		return createRequest(POST, "session", {identifier: tradingData.apiEmail, password: tradingData.apiKeyPassword});
 	}
 
-	private static function finish():Future<Dynamic>
+	public static function finish():Future<Dynamic>
 		return createRequest(DELETE, "session");
 
-	private static function serverPing():Future<String>
+	public static function serverPing():Future<String>
 		return createRequest(GET, "ping").then(res -> Future.withValue(res.status));
 
 	public static function serverTime():Future<Float>
