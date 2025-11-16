@@ -12,15 +12,19 @@ import openfl.net.URLRequestMethod;
 using StringTools;
 
 class API {
-	public static var tradingData(default, null):TradingData = null;
+	public static var tradingData(default, null):TradingData = {
+		demo: true,
+		apiEmail: "",
+		apiKey: "",
+		apiKeyPassword: ""
+	};
 
-	private static var BASE_URL:String = 'https://${tradingData.demo ? "demo-" : ""}api-capital.backend-capital.com/api/v1';
 	private static var SECURITY_TOKEN:String = "";
 	private static var CST:String = "";
 
 	private static function createRequest(method:URLRequestMethod, command:String, ?params:Map<String, String>, ?data:Dynamic):Future<Dynamic> {
 		var promise = new Promise<Dynamic>();
-		var http:Http = new Http('$BASE_URL/$command');
+		var http:Http = new Http('https://${tradingData.demo ? "demo-" : ""}api-capital.backend-capital.com/api/v1/$command');
 
 		http.addHeader("Content-Type", "application/json");
 		if (SECURITY_TOKEN != "" && CST != "") {
@@ -57,7 +61,6 @@ class API {
 
 	public static function init(data:TradingData):Future<Dynamic> {
 		tradingData = data;
-		BASE_URL = 'https://${tradingData.demo ? "demo-" : ""}api-capital.backend-capital.com/api/v1';
 		return createRequest(POST, "session", {identifier: tradingData.apiEmail, password: tradingData.apiKeyPassword});
 	}
 
