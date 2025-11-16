@@ -1,0 +1,23 @@
+{
+    "name": "capital_com_api",
+    "url": "https://github.com/GamerPablito/capital_com_api",
+    "license": "Apache",
+    "tags": [
+        "api",
+        "haxe",
+        "capitalcom",
+        "sys"
+    ],
+    "description": "An useful library to interact with Capital.com API with ease.",
+    "version": "1.0.0",
+    "classPath": "src/",
+    "releasenote": "First Release Ever!",
+    "contributors": [
+        "GamerPablito"
+    ],
+    "dependencies": {
+        "lime": "",
+        "openfl": ""
+    },
+    "main": "API"
+}
