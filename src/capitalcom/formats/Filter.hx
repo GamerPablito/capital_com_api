@@ -2,7 +2,7 @@ package capitalcom.formats;
 
 typedef Filter = {
 	?epic:String,
-	?source:FilterSource,
-	?status:FilterStatus,
-	?type:FilterType
+	?source:capitalcom.types.FilterSource,
+	?status:capitalcom.types.FilterStatus,
+	?type:capitalcom.types.FilterType
 }

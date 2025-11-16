@@ -2,7 +2,7 @@ package capitalcom.formats;
 
 typedef OrderData = {
 	dealId:String,
-	direction:Direction,
+	direction:capitalcom.types.Direction,
 	epic:String,
 	orderSize:Float,
 	leverage:Int,
@@ -13,7 +13,7 @@ typedef OrderData = {
 	createdDate:String,
 	createdDateUTC:String,
 	guaranteedStop:Bool,
-	orderType:OrderType,
+	orderType:capitalcom.types.OrderType,
 	stopDistance:Float,
 	profitDistance:Float,
 	trailingStop:Bool,

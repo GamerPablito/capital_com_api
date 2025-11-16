@@ -3,7 +3,7 @@ package capitalcom.formats;
 typedef Transaction = {
 	date:String,
 	dateUtc:String,
-	transactionType:TransactionType,
+	transactionType:capitalcom.types.TransactionType,
 	note:String,
 	reference:String,
 	size:String,

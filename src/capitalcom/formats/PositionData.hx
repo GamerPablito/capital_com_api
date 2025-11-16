@@ -10,7 +10,7 @@ typedef PositionData = {
 	size:Float,
 	leverage:Int,
 	upl:Float,
-	direction:Direction,
+	direction:capitalcom.types.Direction,
 	level:Float,
 	currency:String,
 	guaranteedStop:Bool

@@ -5,15 +5,15 @@ typedef Activity = {
 	dateUTC:String,
 	epic:String,
 	dealId:String,
-	source:FilterSource,
-	type:FilterType,
-	status:FilterStatus,
+	source:capitalcom.types.FilterSource,
+	type:capitalcom.types.FilterType,
+	status:capitalcom.types.FilterStatus,
 	?details:{
 		dealReference:String,
 		marketName:String,
 		currency:String,
 		size:Float,
-		direction:Direction,
+		direction:capitalcom.types.Direction,
 		level:Float,
 		guaranteedStop:Bool
 	}

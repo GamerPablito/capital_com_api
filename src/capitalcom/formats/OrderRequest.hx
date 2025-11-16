@@ -2,6 +2,6 @@ package capitalcom.formats;
 
 typedef OrderRequest = PositionRequest & {
 	level:Float,
-	type:OrderType,
+	type:capitalcom.types.OrderType,
 	?goodTillDate:String
 }
