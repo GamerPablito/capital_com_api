@@ -1,7 +1,6 @@
-package formats;
+package capitalcom.formats;
 
-typedef PositionData =
-{
+typedef PositionData = {
 	contractSize:Float,
 	createdDate:String,
 	createdDateUTC:String,

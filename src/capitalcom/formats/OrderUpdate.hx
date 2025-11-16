@@ -1,7 +1,6 @@
-package formats;
+package capitalcom.formats;
 
-typedef OrderUpdate = PositionUpdate &
-{
+typedef OrderUpdate = PositionUpdate & {
 	?level:Float,
 	?goodTillDate:String
 }

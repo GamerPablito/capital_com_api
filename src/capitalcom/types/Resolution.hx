@@ -1,7 +1,6 @@
-package types;
+package capitalcom.types;
 
-enum abstract Resolution(String) from String to String
-{
+enum abstract Resolution(String) from String to String {
 	public var MINUTE:String = "MINUTE";
 	public var MINUTE_5:String = "MINUTE_5";
 	public var MINUTE_15:String = "MINUTE_15";

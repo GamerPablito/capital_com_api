@@ -1,10 +1,8 @@
-package formats;
+package capitalcom.formats;
 
-typedef Preferences =
-{
+typedef Preferences = {
 	hedgingMode:Bool,
-	leverages:
-	{
+	leverages:{
 		SHARES:Leverage, CURRENCIES:Leverage, INDICES:Leverage, CRYPTOCURRENCIES:Leverage, COMMODITIES:Leverage
 	}
 }

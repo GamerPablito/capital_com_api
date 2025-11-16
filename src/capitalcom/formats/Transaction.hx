@@ -1,7 +1,6 @@
-package formats;
+package capitalcom.formats;
 
-typedef Transaction =
-{
+typedef Transaction = {
 	date:String,
 	dateUtc:String,
 	transactionType:TransactionType,

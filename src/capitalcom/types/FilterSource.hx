@@ -1,7 +1,6 @@
-package types;
+package capitalcom.types;
 
-enum abstract FilterSource(String) from String to String
-{
+enum abstract FilterSource(String) from String to String {
 	public var CLOSE_OUT:String = "CLOSE_OUT";
 	public var DEALER:String = "DEALER";
 	public var SL:String = "SL";

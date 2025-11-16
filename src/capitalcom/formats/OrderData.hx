@@ -1,7 +1,6 @@
-package formats;
+package capitalcom.formats;
 
-typedef OrderData =
-{
+typedef OrderData = {
 	dealId:String,
 	direction:Direction,
 	epic:String,

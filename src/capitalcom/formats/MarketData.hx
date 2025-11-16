@@ -1,7 +1,6 @@
-package formats;
+package capitalcom.formats;
 
-typedef MarketData =
-{
+typedef MarketData = {
 	instrumentName:String,
 	expiry:String,
 	marketStatus:String,

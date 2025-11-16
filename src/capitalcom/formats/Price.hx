@@ -1,7 +1,6 @@
-package formats;
+package capitalcom.formats;
 
-typedef Price =
-{
+typedef Price = {
 	snapshotTime:String,
 	snapshotTimeUTC:String,
 	openPrice:PriceBidAsk,

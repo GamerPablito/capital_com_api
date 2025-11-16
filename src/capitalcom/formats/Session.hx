@@ -1,7 +1,6 @@
-package formats;
+package capitalcom.formats;
 
-typedef Session =
-{
+typedef Session = {
 	clientId:String,
 	accountId:String,
 	timezoneOffset:Int,

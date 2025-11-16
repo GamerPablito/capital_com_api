@@ -1,7 +1,6 @@
-package formats;
+package capitalcom.formats;
 
-typedef Activity =
-{
+typedef Activity = {
 	date:String,
 	dateUTC:String,
 	epic:String,
@@ -9,14 +8,13 @@ typedef Activity =
 	source:FilterSource,
 	type:FilterType,
 	status:FilterStatus,
-	?details:
-		{
-			dealReference:String,
-			marketName:String,
-			currency:String,
-			size:Float,
-			direction:Direction,
-			level:Float,
-			guaranteedStop:Bool
-		}
+	?details:{
+		dealReference:String,
+		marketName:String,
+		currency:String,
+		size:Float,
+		direction:Direction,
+		level:Float,
+		guaranteedStop:Bool
+	}
 }

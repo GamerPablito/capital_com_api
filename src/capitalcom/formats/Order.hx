@@ -1,7 +1,6 @@
-package formats;
+package capitalcom.formats;
 
-typedef Order =
-{
+typedef Order = {
 	workingOrderData:OrderData,
 	marketData:MarketData
 }

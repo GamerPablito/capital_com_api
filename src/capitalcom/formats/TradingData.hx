@@ -1,7 +1,6 @@
-package;
+package capitalcom.formats;
 
-typedef TradingData =
-{
+typedef TradingData = {
 	demo:Bool,
 	apiEmail:String,
 	apiKey:String,

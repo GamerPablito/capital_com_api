@@ -1,7 +1,6 @@
-package formats;
+package capitalcom.formats;
 
-typedef OrderRequest = PositionRequest &
-{
+typedef OrderRequest = PositionRequest & {
 	level:Float,
 	type:OrderType,
 	?goodTillDate:String

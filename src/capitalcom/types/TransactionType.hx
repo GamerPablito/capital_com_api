@@ -1,7 +1,6 @@
-package types;
+package capitalcom.types;
 
-enum abstract TransactionType(String) from String to String
-{
+enum abstract TransactionType(String) from String to String {
 	public var INACTIVITY_FEE:String = "INACTIVITY_FEE";
 	public var RESERVE:String = "RESERVE";
 	public var VOID:String = "VOID";

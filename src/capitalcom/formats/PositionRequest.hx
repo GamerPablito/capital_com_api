@@ -1,7 +1,6 @@
-package formats;
+package capitalcom.formats;
 
-typedef PositionRequest = PositionUpdate &
-{
+typedef PositionRequest = PositionUpdate & {
 	direction:Direction,
 	epic:String,
 	size:Float

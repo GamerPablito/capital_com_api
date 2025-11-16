@@ -1,7 +1,6 @@
-package types;
+package capitalcom.types;
 
-enum abstract FilterStatus(String) from String to String
-{
+enum abstract FilterStatus(String) from String to String {
 	public var ACCEPTED:String = "ACCEPTED";
 	public var CREATED:String = "CREATED";
 	public var EXECUTED:String = "EXECUTED";

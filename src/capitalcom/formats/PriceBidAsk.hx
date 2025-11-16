@@ -1,7 +1,6 @@
-package formats;
+package capitalcom.formats;
 
-typedef PriceBidAsk =
-{
+typedef PriceBidAsk = {
 	bid:Float,
 	ask:Float
 }

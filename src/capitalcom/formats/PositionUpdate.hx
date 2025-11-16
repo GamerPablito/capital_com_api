@@ -1,7 +1,6 @@
-package formats;
+package capitalcom.formats;
 
-typedef PositionUpdate =
-{
+typedef PositionUpdate = {
 	?guaranteedStop:Bool,
 	?trailingStop:Bool,
 	?stopLevel:Float,

@@ -1,27 +1,29 @@
-package;
+package capitalcom;
 
+import capitalcom.formats.*;
+import capitalcom.types.*;
 import haxe.Http;
+import haxe.Json;
 import haxe.io.BytesOutput;
 import lime.app.Future;
 import lime.app.Promise;
 import openfl.net.URLRequestMethod;
 
-class API
-{
+using StringTools;
+
+class API {
 	public static var tradingData(default, null):TradingData = null;
 
 	private static final BASE_URL:String = 'https://${tradingData.demo ? "demo-" : ""}api-capital.backend-capital.com/api/v1';
 	private static var SECURITY_TOKEN:String = "";
 	private static var CST:String = "";
 
-	private static function createRequest(method:URLRequestMethod, command:String, ?params:Map<String, String>, ?data:Dynamic):Future<Dynamic>
-	{
+	private static function createRequest(method:URLRequestMethod, command:String, ?params:Map<String, String>, ?data:Dynamic):Future<Dynamic> {
 		var promise = new Promise<Dynamic>();
 		var http:Http = new Http('$BASE_URL/$command');
 
 		http.addHeader("Content-Type", "application/json");
-		if (SECURITY_TOKEN != "" && CST != "")
-		{
+		if (SECURITY_TOKEN != "" && CST != "") {
 			http.addHeader("X-SECURITY-TOKEN", SECURITY_TOKEN);
 			http.addHeader("CST", CST);
 		}
@@ -43,8 +45,7 @@ class API
 		if (http.responseHeaders.exists("CST"))
 			CST = http.responseHeaders.get("CST");
 
-		if (out.length > 0)
-		{
+		if (out.length > 0) {
 			var _data = Json.parse(out.getBytes().toString());
 			if (_data.errorCode != null)
 				promise.error(_data.errorCode);
@@ -54,8 +55,7 @@ class API
 		return promise.future;
 	}
 
-	private static function init(data:TradingData):Future<Dynamic>
-	{
+	private static function init(data:TradingData):Future<Dynamic> {
 		tradingData = data;
 		return createRequest(POST, "session", {identifier: tradingData.apiEmail, password: tradingData.apiKeyPassword});
 	}
@@ -81,11 +81,9 @@ class API
 	public static function updateAccountPrefs(prefs:Preferences):Future<String>
 		return createRequest(PUT, "accounts/preferences").then(res -> Future.withValue(res.status));
 
-	overload extern inline public static function accountHistory(from:String, to:String, detailed:Bool, ?filter:Filter):Future<Array<Activity>>
-	{
+	overload extern inline public static function accountHistory(from:String, to:String, detailed:Bool, ?filter:Filter):Future<Array<Activity>> {
 		var filterStr:String = "";
-		if (filter != null)
-		{
+		if (filter != null) {
 			if (filter.epic != null)
 				filterStr += 'epic==${filter.epic},';
 			if (filter.source != null)
@@ -104,11 +102,9 @@ class API
 		]).then(res -> Future.withValue(res.activities));
 	}
 
-	overload extern inline public static function accountHistory(lastPeriod:Int, detailed:Bool, ?filter:Filter):Future<Array<Activity>>
-	{
+	overload extern inline public static function accountHistory(lastPeriod:Int, detailed:Bool, ?filter:Filter):Future<Array<Activity>> {
 		var filterStr:String = "";
-		if (filter != null)
-		{
+		if (filter != null) {
 			if (filter.epic != null)
 				filterStr += 'epic==${filter.epic},';
 			if (filter.source != null)
@@ -130,16 +126,14 @@ class API
 		return createRequest(GET, "history/activity",
 			["dealId" => dealId, "detailed" => Std.string(detailed)]).then(res -> Future.withValue(res.activities[0]));
 
-	overload extern inline public static function transactionHistory(from:String, to:String, detailed:Bool, ?type:TransactionType):Future<Array<Transaction>>
-	{
+	overload extern inline public static function transactionHistory(from:String, to:String, detailed:Bool, ?type:TransactionType):Future<Array<Transaction>> {
 		var params = ["from" => from, "to" => to, "detailed" => Std.string(detailed)];
 		if (type != null)
 			params.set("type", type);
 		return createRequest(GET, "history/transactions", params).then(res -> Future.withValue(res.transactions));
 	}
 
-	overload extern inline public static function transactionHistory(lastPeriod:Int, detailed:Bool, ?type:TransactionType):Future<Array<Transaction>>
-	{
+	overload extern inline public static function transactionHistory(lastPeriod:Int, detailed:Bool, ?type:TransactionType):Future<Array<Transaction>> {
 		var params = ["lastPeriod" => Std.string(lastPeriod), "detailed" => Std.string(detailed)];
 		if (type != null)
 			params.set("type", type);
@@ -164,13 +158,10 @@ class API
 	public static function deletePosition(dealId:String):Future<String>
 		return createRequest(DELETE, 'positions/$dealId').then(res -> Future.withValue(res.dealReference));
 
-	public static function deleteAllPositions(filter:Position->Bool):Future<Bool>
-	{
-		return getPositions().then(function(positions)
-		{
+	public static function deleteAllPositions(filter:Position->Bool):Future<Bool> {
+		return getPositions().then(function(positions) {
 			var promise = new Promise<Bool>();
-			for (p in positions.filter(filter))
-			{
+			for (p in positions.filter(filter)) {
 				deletePosition(p.position.dealId).onError(e -> promise.error(e));
 				if (promise.isError)
 					break;
@@ -191,8 +182,7 @@ class API
 	public static function deleteOrder(dealId:String):Future<String>
 		return createRequest(DELETE, 'workingorders/$dealId').then(res -> Future.withValue(res.dealReference));
 
-	public static function getPrices(epic:String, resolution:Resolution, ?max:Int, ?from:String, ?to:String):Future<Array<Price>>
-	{
+	public static function getPrices(epic:String, resolution:Resolution, ?max:Int, ?from:String, ?to:String):Future<Array<Price>> {
 		var params = ["resolution" => resolution];
 		if (max != null)
 			params.set("max", Std.string(max));

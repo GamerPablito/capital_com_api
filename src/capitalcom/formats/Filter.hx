@@ -1,7 +1,6 @@
-package formats;
+package capitalcom.formats;
 
-typedef Filter =
-{
+typedef Filter = {
 	?epic:String,
 	?source:FilterSource,
 	?status:FilterStatus,

@@ -1,7 +1,6 @@
-package formats;
+package capitalcom.formats;
 
-typedef Leverage =
-{
+typedef Leverage = {
 	current:Int,
 	available:Array<Int>
 }

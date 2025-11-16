@@ -1,7 +1,6 @@
-package formats;
+package capitalcom.formats;
 
-typedef Position =
-{
+typedef Position = {
 	position:PositionData,
 	market:MarketData
 }
