@@ -83,7 +83,7 @@ class API {
 		return createRequest(GET, "accounts/preferences").then(res -> Future.withValue(res));
 
 	public static function updateAccountPrefs(prefs:Preferences):Future<String>
-		return createRequest(PUT, "accounts/preferences").then(res -> Future.withValue(res.status));
+		return createRequest(PUT, "accounts/preferences", prefs).then(res -> Future.withValue(res.status));
 
 	overload extern inline public static function accountHistory(from:String, to:String, detailed:Bool, ?filter:Filter):Future<Array<Activity>> {
 		var filterStr:String = "";
