@@ -36,7 +36,7 @@ class API {
 
 		if (params != null)
 			for (k => v in params)
-				http.addParameter(k, v.urlEncode());
+				http.addParameter(k, v);
 		if (data != null)
 			http.setPostData(Json.stringify(data));
 

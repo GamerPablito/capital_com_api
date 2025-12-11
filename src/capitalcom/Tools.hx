@@ -2,13 +2,10 @@ package capitalcom;
 
 using Reflect;
 
-class Tools
-{
-	public function extractCSV(data:Array<Array<String>>):String
-	{
+class Tools {
+	public static function extractCSV(data:Array<Array<String>>):String {
 		var content:String = "";
-		for (row in data)
-		{
+		for (row in data) {
 			for (cell in row)
 				content += '$cell,';
 			content += '\n';
@@ -16,13 +13,11 @@ class Tools
 		return content;
 	}
 
-	public static function clone<T>(obj:T):T
-	{
+	public static function clone<T>(obj:T):T {
 		if (obj == null)
 			return null;
 
-		return switch (Type.typeof(obj))
-		{
+		return switch (Type.typeof(obj)) {
 			case TObject:
 				var out:Dynamic = {};
 				for (field in obj.fields())

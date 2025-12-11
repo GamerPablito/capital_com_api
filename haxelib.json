@@ -9,9 +9,9 @@
         "sys"
     ],
     "description": "An useful library to interact with Capital.com API with ease.",
-    "version": "1.1.0",
+    "version": "1.1.1",
     "classPath": "src/",
-    "releasenote": "First Release Ever!",
+    "releasenote": "More Patches",
     "contributors": [
         "GamerPablito"
     ],
