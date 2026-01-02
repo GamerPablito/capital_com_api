@@ -4,10 +4,15 @@ import capitalcom.formats.Price;
 import capitalcom.formats.PriceBidAsk;
 
 class TA {
-	public static function ohlc(prices:Array<Price>):Array<PriceBidAsk>
+	public static function ohlc(prices:Array<Price>):Array<PriceOHLC>
 		return prices.map(p -> {
-			bid: (p.openPrice.bid + p.highPrice.bid + p.lowPrice.bid + p.closePrice.bid) / 4,
-			ask: (p.openPrice.ask + p.highPrice.ask + p.lowPrice.ask + p.closePrice.ask) / 4
+			snapshotTime: p.snapshotTime,
+			snapshotTimeUTC: p.snapshotTimeUTC,
+			ohlc: {
+				bid: (p.openPrice.bid + p.highPrice.bid + p.lowPrice.bid + p.closePrice.bid) / 4,
+				ask: (p.openPrice.ask + p.highPrice.ask + p.lowPrice.ask + p.closePrice.ask) / 4
+			},
+			lastTradedVolume: p.lastTradedVolume
 		});
 
 	public static function heikinAshi(prices:Array<Price>):Array<Price> {

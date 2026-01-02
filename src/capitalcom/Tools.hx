@@ -4,13 +4,17 @@ using Reflect;
 
 class Tools {
 	public static function extractCSV(data:Array<Array<String>>):String {
-		var content:String = "";
-		for (row in data) {
-			for (cell in row)
-				content += '$cell,';
-			content += '\n';
+		var content:StringBuf = new StringBuf();
+		for (i => row in data) {
+			for (j => cell in row) {
+				content.add(cell);
+				if (j < row.length - 1)
+					content.add(",");
+			}
+			if (i < data.length - 1)
+				content.add("\n");
 		}
-		return content;
+		return content.toString();
 	}
 
 	public static function clone<T>(obj:T):T {
