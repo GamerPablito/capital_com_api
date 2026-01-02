@@ -187,7 +187,7 @@ class API {
 		return createRequest(DELETE, 'workingorders/$dealId').then(res -> Future.withValue(res.dealReference));
 
 	public static function getConfirmation(dealReference:String):Future<String>
-		return createRequest(GET, 'confirms/${dealReference}').then(res -> Future.withValue(res.dealId));
+		return createRequest(GET, 'confirms/${dealReference}').then(res -> Future.withValue(res.affectedDeals[0].dealId));
 
 	public static function getPrices(epic:String, resolution:Resolution, ?max:Int, ?from:String, ?to:String):Future<Array<Price>> {
 		var params = ["resolution" => resolution];
