@@ -175,7 +175,7 @@ class API {
 	}
 
 	public static function getConfirmation(dealReference:String):Future<String>
-		return createRequest(GET, 'confirms/$dealReference').then(res -> res.affectedDeals[0].dealId);
+		return createRequest(GET, 'confirms/$dealReference').then(res -> Future.withValue(res.affectedDeals[0].dealId));
 
 	public static function getOrders():Future<Array<Order>>
 		return createRequest(GET, 'workingorders').then(res -> Future.withValue(res.workingOrders));
