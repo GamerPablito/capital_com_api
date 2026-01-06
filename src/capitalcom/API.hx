@@ -40,22 +40,20 @@ class API {
 		if (data != null)
 			http.setPostData(Json.stringify(data));
 
+		http.onData = function(data) {
+			var _data = Json.parse(data);
+			if (_data.errorCode != null)
+				promise.error(_data.errorCode);
+			promise.complete(_data);
+		}
 		http.onError = err -> promise.error(err);
+		http.customRequest(method == POST, null, null, method);
 
-		var out = new BytesOutput();
-		http.customRequest(method == POST, out, null, method);
 		if (http.responseHeaders.exists("X-SECURITY-TOKEN"))
 			SECURITY_TOKEN = http.responseHeaders.get("X-SECURITY-TOKEN");
 		if (http.responseHeaders.exists("CST"))
 			CST = http.responseHeaders.get("CST");
 
-		if (out.length > 0) {
-			var _data = Json.parse(out.getBytes().toString());
-			if (_data.errorCode != null)
-				promise.error(_data.errorCode);
-			if (!promise.isError)
-				promise.complete(_data);
-		}
 		return promise.future;
 	}
 
@@ -186,9 +184,6 @@ class API {
 
 	public static function deleteOrder(dealId:String):Future<String>
 		return createRequest(DELETE, 'workingorders/$dealId').then(res -> Future.withValue(res.dealReference));
-
-	public static function getConfirmation(dealReference:String):Future<String>
-		return
 
 	public static function getPrices(epic:String, resolution:Resolution, ?max:Int, ?from:String, ?to:String):Future<Array<Price>> {
 		var params = ["resolution" => resolution];
