@@ -153,7 +153,7 @@ class API {
 
 	public static function createPosition(request:PositionRequest):Future<String>
 		return createRequest(POST, 'positions',
-			request).then(res -> createRequest(GET, 'confirms/${dealReference}')).then(res -> Future.withValue(res.affectedDeals[0].dealId));
+			request).then(res -> createRequest(GET, 'confirms/${res.dealReference}')).then(res -> Future.withValue(res.affectedDeals[0].dealId));
 
 	public static function updatePosition(dealId:String, update:PositionUpdate):Future<String>
 		return createRequest(PUT, 'positions/$dealId', update).then(res -> Future.withValue(res.dealReference));
