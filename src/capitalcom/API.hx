@@ -172,7 +172,7 @@ class API {
 		});
 	}
 
-	public function getConfirmation(dealReference:String):Future<String>
+	public static function getConfirmation(dealReference:String):Future<String>
 		return createRequest(GET, 'confirms/$dealReference').then(res -> res.affectedDeals[0].dealId);
 
 	public static function getOrders():Future<Array<Order>>
