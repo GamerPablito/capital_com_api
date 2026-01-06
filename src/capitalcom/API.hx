@@ -154,7 +154,8 @@ class API {
 		return createRequest(GET, 'positions/$dealId').then(res -> Future.withValue(res.position));
 
 	public static function createPosition(request:PositionRequest):Future<String>
-		return createRequest(POST, 'positions', request).then(res -> Future.withValue(res.dealReference));
+		return createRequest(POST, 'positions',
+			request).then(res -> createRequest(GET, 'confirms/${dealReference}')).then(res -> Future.withValue(res.affectedDeals[0].dealId));
 
 	public static function updatePosition(dealId:String, update:PositionUpdate):Future<String>
 		return createRequest(PUT, 'positions/$dealId', update).then(res -> Future.withValue(res.dealReference));
@@ -187,7 +188,7 @@ class API {
 		return createRequest(DELETE, 'workingorders/$dealId').then(res -> Future.withValue(res.dealReference));
 
 	public static function getConfirmation(dealReference:String):Future<String>
-		return createRequest(GET, 'confirms/${dealReference}').then(res -> Future.withValue(res.affectedDeals[0].dealId));
+		return
 
 	public static function getPrices(epic:String, resolution:Resolution, ?max:Int, ?from:String, ?to:String):Future<Array<Price>> {
 		var params = ["resolution" => resolution];
