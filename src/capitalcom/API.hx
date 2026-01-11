@@ -4,7 +4,6 @@ import capitalcom.formats.*;
 import capitalcom.types.*;
 import haxe.Http;
 import haxe.Json;
-import haxe.io.BytesOutput;
 import lime.app.Future;
 import lime.app.Promise;
 import openfl.net.URLRequestMethod;
@@ -27,10 +26,10 @@ class API {
 		var http:Http = new Http('https://${tradingData.demo ? "demo-" : ""}api-capital.backend-capital.com/api/v1/$command');
 
 		http.addHeader("Content-Type", "application/json");
-		if (SECURITY_TOKEN != "" && CST != "") {
+		if (SECURITY_TOKEN != "")
 			http.addHeader("X-SECURITY-TOKEN", SECURITY_TOKEN);
+		if (CST != "")
 			http.addHeader("CST", CST);
-		}
 		if (method == POST && command == "session")
 			http.addHeader("X-CAP-API-KEY", tradingData.apiKey);
 
@@ -40,22 +39,19 @@ class API {
 		if (data != null)
 			http.setPostData(Json.stringify(data));
 
-		http.onError = err -> promise.error(err);
-
-		var out = new BytesOutput();
-		http.customRequest(method == POST, out, null, method);
-		if (http.responseHeaders.exists("X-SECURITY-TOKEN"))
-			SECURITY_TOKEN = http.responseHeaders.get("X-SECURITY-TOKEN");
-		if (http.responseHeaders.exists("CST"))
-			CST = http.responseHeaders.get("CST");
-
-		if (out.length > 0) {
-			var _data = Json.parse(out.getBytes().toString());
+		http.onData = function(data) {
+			if (http.responseHeaders.exists("X-SECURITY-TOKEN"))
+				SECURITY_TOKEN = http.responseHeaders.get("X-SECURITY-TOKEN");
+			if (http.responseHeaders.exists("CST"))
+				CST = http.responseHeaders.get("CST");
+			var _data = Json.parse(data);
 			if (_data.errorCode != null)
 				promise.error(_data.errorCode);
-			if (!promise.isError)
-				promise.complete(_data);
+			promise.complete(_data);
 		}
+		http.onError = err -> promise.error(err);
+		http.customRequest(method == POST, null, null, method);
+
 		return promise.future;
 	}
 
@@ -85,45 +81,18 @@ class API {
 	public static function updateAccountPrefs(prefs:Preferences):Future<String>
 		return createRequest(PUT, "accounts/preferences", prefs).then(res -> Future.withValue(res.status));
 
-	overload extern inline public static function accountHistory(from:String, to:String, detailed:Bool, ?filter:Filter):Future<Array<Activity>> {
-		var filterStr:String = "";
-		if (filter != null) {
-			if (filter.epic != null)
-				filterStr += 'epic==${filter.epic},';
-			if (filter.source != null)
-				filterStr += 'source==${filter.source},';
-			if (filter.status != null)
-				filterStr += 'status==${filter.status},';
-			if (filter.type != null)
-				filterStr += 'type==${filter.type}';
-		}
-
-		return createRequest(GET, "history/activity", [
-			"from" => from,
-			"to" => to,
-			"detailed" => Std.string(detailed),
-			"filter" => filterStr
-		]).then(res -> Future.withValue(res.activities));
+	overload extern inline public static function accountHistory(from:String, to:String, detailed:Bool, ?filter:String):Future<Array<Activity>> {
+		var params = ["from" => from, "to" => to, "detailed" => Std.string(detailed)];
+		if (filter != null)
+			params.set("filter", filter);
+		return createRequest(GET, "history/activity", params).then(res -> Future.withValue(res.activities));
 	}
 
-	overload extern inline public static function accountHistory(lastPeriod:Int, detailed:Bool, ?filter:Filter):Future<Array<Activity>> {
-		var filterStr:String = "";
-		if (filter != null) {
-			if (filter.epic != null)
-				filterStr += 'epic==${filter.epic},';
-			if (filter.source != null)
-				filterStr += 'source==${filter.source},';
-			if (filter.status != null)
-				filterStr += 'status==${filter.status},';
-			if (filter.type != null)
-				filterStr += 'type==${filter.type}';
-		}
-
-		return createRequest(GET, "history/activity", [
-			"lastPeriod" => Std.string(lastPeriod),
-			"detailed" => Std.string(detailed),
-			"filter" => filterStr
-		]).then(res -> Future.withValue(res.activities));
+	overload extern inline public static function accountHistory(lastPeriod:Int, detailed:Bool, ?filter:String):Future<Array<Activity>> {
+		var params = ["lastPeriod" => Std.string(lastPeriod), "detailed" => Std.string(detailed)];
+		if (filter != null)
+			params.set("filter", filter);
+		return createRequest(GET, "history/activity", params).then(res -> Future.withValue(res.activities));
 	}
 
 	overload extern inline public static function accountHistory(dealId:String, detailed:Bool):Future<Activity>
@@ -146,6 +115,9 @@ class API {
 
 	public static function adjustDemoBalance(amount:Float):Future<Bool>
 		return createRequest(POST, 'accounts/topUp', {amount: amount}).then(res -> Future.withValue(res.successful == true));
+
+	public static function getConfirmation(dealReference:String):Future<Confirmation>
+		return createRequest(GET, 'confirms/$dealReference');
 
 	public static function getPositions():Future<Array<Position>>
 		return createRequest(GET, 'positions').then(res -> Future.withValue(res.positions));
@@ -170,12 +142,11 @@ class API {
 				if (promise.isError)
 					break;
 			}
+
+			promise.complete(true);
 			return promise.future;
 		});
 	}
-
-	public static function getConfirmation(dealReference:String):Future<String>
-		return createRequest(GET, 'confirms/$dealReference').then(res -> Future.withValue(res.affectedDeals[0].dealId));
 
 	public static function getOrders():Future<Array<Order>>
 		return createRequest(GET, 'workingorders').then(res -> Future.withValue(res.workingOrders));
@@ -199,4 +170,19 @@ class API {
 			params.set("to", to);
 		return createRequest(GET, 'prices/$epic', params).then(res -> Future.withValue(res.prices));
 	}
+
+	public static function getMarketDetails(searchTerm:String):Future<Array<MarketDetails>>
+		return createRequest(GET, 'markets', ["searchTerm" => searchTerm]).then(res -> Future.withValue(res.markets));
+
+	overload extern inline public static function getMarketInfo(epic:String):Future<MarketInfo>
+		return createRequest(GET, 'markets/$epic');
+
+	overload extern inline public static function getMarketInfo(epics:Array<String>):Future<Array<MarketInfo>>
+		return createRequest(GET, 'markets', ["epics" => epics.join(",")]).then(res -> Future.withValue(res.marketDetails));
+
+	overload extern inline public static function getClientSentiment(marketId:String):Future<ClientSentiment>
+		return createRequest(GET, 'clientsentiment/$marketId');
+
+	overload extern inline public static function getClientSentiment(marketIds:Array<String>):Future<Array<ClientSentiment>>
+		return createRequest(GET, 'clientsentiment', ["marketIds" => marketIds.join(",")]).then(res -> Future.withValue(res.clientSentiments));
 }

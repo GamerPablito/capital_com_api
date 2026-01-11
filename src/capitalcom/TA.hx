@@ -21,8 +21,8 @@ class TA {
 
 		var _prices:Array<Price> = prices.map(p -> Tools.clone(p));
 		for (i => p in _prices) {
-			p.closePrice.bid = ohlcBid(p);
-			p.closePrice.ask = ohlcAsk(p);
+			p.closePrice.bid = (p.openPrice.bid + p.highPrice.bid + p.lowPrice.bid + p.closePrice.bid) / 4;
+			p.closePrice.ask = (p.openPrice.ask + p.highPrice.ask + p.lowPrice.ask + p.closePrice.ask) / 4;
 
 			if (i > 0) {
 				var prev:Price = _prices[i - 1];
