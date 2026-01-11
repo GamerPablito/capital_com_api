@@ -117,7 +117,7 @@ class API {
 		return createRequest(POST, 'accounts/topUp', {amount: amount}).then(res -> Future.withValue(res.successful == true));
 
 	public static function getConfirmation(dealReference:String):Future<Confirmation>
-		return createRequest(GET, 'confirms/$dealReference');
+		return createRequest(GET, 'confirms/$dealReference').then(res -> Future.withValue(cast res));
 
 	public static function getPositions():Future<Array<Position>>
 		return createRequest(GET, 'positions').then(res -> Future.withValue(res.positions));
@@ -175,13 +175,13 @@ class API {
 		return createRequest(GET, 'markets', ["searchTerm" => searchTerm]).then(res -> Future.withValue(res.markets));
 
 	overload extern inline public static function getMarketInfo(epic:String):Future<MarketInfo>
-		return createRequest(GET, 'markets/$epic');
+		return createRequest(GET, 'markets/$epic').then(res -> Future.withValue(cast res));
 
 	overload extern inline public static function getMarketInfo(epics:Array<String>):Future<Array<MarketInfo>>
 		return createRequest(GET, 'markets', ["epics" => epics.join(",")]).then(res -> Future.withValue(res.marketDetails));
 
 	overload extern inline public static function getClientSentiment(marketId:String):Future<ClientSentiment>
-		return createRequest(GET, 'clientsentiment/$marketId');
+		return createRequest(GET, 'clientsentiment/$marketId').then(res -> Future.withValue(cast res));
 
 	overload extern inline public static function getClientSentiment(marketIds:Array<String>):Future<Array<ClientSentiment>>
 		return createRequest(GET, 'clientsentiment', ["marketIds" => marketIds.join(",")]).then(res -> Future.withValue(res.clientSentiments));
