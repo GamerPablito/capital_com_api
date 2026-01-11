@@ -4,6 +4,7 @@ import capitalcom.formats.*;
 import capitalcom.types.*;
 import haxe.Http;
 import haxe.Json;
+import haxe.io.BytesOutput;
 import lime.app.Future;
 import lime.app.Promise;
 import openfl.net.URLRequestMethod;
@@ -38,19 +39,24 @@ class API {
 				http.addParameter(k, v);
 		if (data != null)
 			http.setPostData(Json.stringify(data));
+		http.onError = err -> promise.error(err);
 
-		http.onData = function(data) {
+		var out = new BytesOutput();
+		http.customRequest(method == POST, out, null, method);
+
+		if (http.responseHeaders != null) {
 			if (http.responseHeaders.exists("X-SECURITY-TOKEN"))
 				SECURITY_TOKEN = http.responseHeaders.get("X-SECURITY-TOKEN");
 			if (http.responseHeaders.exists("CST"))
 				CST = http.responseHeaders.get("CST");
-			var _data = Json.parse(data);
+		}
+
+		if (out.length > 0) {
+			var _data = Json.parse(out.getBytes().toString());
 			if (_data.errorCode != null)
 				promise.error(_data.errorCode);
 			promise.complete(_data);
 		}
-		http.onError = err -> promise.error(err);
-		http.customRequest(method == POST, null, null, method);
 
 		return promise.future;
 	}
