@@ -3,7 +3,7 @@ package capitalcom.formats;
 typedef Account = {
 	accountId:String,
 	accountName:String,
-	status:capitalcom.types.FilterStatus,
+	status:String,
 	accountType:String,
 	preferred:Bool,
 	balance:{
