@@ -15,6 +15,8 @@ typedef Activity = {
 		size:Float,
 		direction:capitalcom.types.Direction,
 		level:Float,
-		guaranteedStop:Bool
+		guaranteedStop:Bool,
+		?workingOrderId:String,
+		?openPrice:Float
 	}
 }
