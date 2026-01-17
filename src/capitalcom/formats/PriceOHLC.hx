@@ -1,6 +1,6 @@
 package capitalcom.formats;
 
-typedef Price = {
+typedef PriceOHLC = {
 	snapshotTime:String,
 	snapshotTimeUTC:String,
 	ohlc:PriceBidAsk,
