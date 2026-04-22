@@ -2,6 +2,7 @@ package capitalcom;
 
 import capitalcom.formats.Price;
 import capitalcom.formats.PriceBidAsk;
+import capitalcom.formats.PriceOHLC;
 
 class TA {
 	public static function ohlc(prices:Array<Price>):Array<PriceOHLC>
@@ -55,7 +56,7 @@ class TA {
 
 		var _values:Array<Float> = [];
 		var values:Array<Float> = [];
-		for (i => p in prices) {
+		for (p in prices) {
 			_values.push(p);
 			while (_values.length > amount)
 				_values.shift();
